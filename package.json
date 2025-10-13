@@ -4,7 +4,8 @@
   "private": false,
   "type": "module",
   "license": "MIT",
-  "description": "Modular Four.meme (BNB Chain) trading toolkit: sniper, copy-trader, bundler, and volume bots with on-chain integration.",
+  "author": "vladmeer",
+  "description": "Four.Meme BNB Trading Bot. Sniper Bot, Volume Bot, Bundler Bot. Contact for fourmeme trading bot",
   "bin": {
     "fourmeme": "dist/index.js"
   },

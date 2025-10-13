@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { Command } from 'commander'
 import { loadEnvironment } from './lib/config.js'
 import { createLogger } from './lib/logger.js'
@@ -10,63 +11,103 @@ import { VolumeBot } from './modules/volume/VolumeBot.js'
 const program = new Command()
 
 program
-  .name('fourmeme')
-  .description('Four.meme (BNB) trading toolkit CLI')
+  .name('fourmeme-cli')
+  .description('Four.Meme trading toolkit — modular CLI for strategy execution and testing')
   .version('0.1.0')
+  .addHelpText(
+    'after',
+    `
+Examples:
+  $ fourmeme-cli sniper --config ./config/sniper.json
+  $ fourmeme-cli copy --dry-run
+  $ fourmeme-cli bundle --config ./config/bundle.json
+`
+  )
 
-program
-  .command('sniper')
-  .description('Run the sniper for new launches')
-  .option('-c, --config <path>', 'Path to JSON config', 'config.sniper.example.json')
-  .option('--dry-run', 'Simulate without sending transactions', false)
-  .action(async (opts) => {
-    const env = loadEnvironment()
-    const logger = createLogger(env.LOG_LEVEL)
-    const { wallet, provider } = createWalletAndProvider(env)
-    const sniper = new Sniper({ wallet, provider, logger, dryRun: opts.dryRun, env })
-    await  sniper!.run(opts.config)
-  })
+/**
+ * Helper to register a module command that follows the same lifecycle:
+ *  - load environment
+ *  - create logger
+ *  - create wallet & provider
+ *  - instantiate and run module
+ *
+ * @param {string} name command name
+ * @param {string} description professional description
+ * @param {Function} ModuleClass class/constructor for the module
+ * @param {string} defaultConfig default config path
+ */
+function registerCommand(name, description, ModuleClass, defaultConfig) {
+  program
+    .command(name)
+    .description(description)
+    .option('-c, --config <path>', 'Path to JSON config file', defaultConfig)
+    .option('--dry-run', 'Run in simulation mode (no transactions will be sent)', false)
+    .action(async (opts) => {
+      // Fail-fast on unexpected errors
+      try {
+        const env = loadEnvironment()
+        const logger = createLogger(env.LOG_LEVEL)
+        logger.info(`Starting "${name}" command`)
+        logger.debug('Environment loaded', { env })
 
-program
-  .command('copy')
-  .description('Run copy trading against target wallets')
-  .option('-c, --config <path>', 'Path to JSON config', 'config.copy.example.json')
-  .option('--dry-run', 'Simulate without sending transactions', false)
-  .action(async (opts) => {
-    const env = loadEnvironment()
-    const logger = createLogger(env.LOG_LEVEL)
-    const { wallet, provider } = createWalletAndProvider(env)
-    const copy = new CopyTrader({ wallet, provider, logger, dryRun: opts.dryRun, env })
-    await  copy!.run(opts.config)
-  })
+        const { wallet, provider } = createWalletAndProvider(env)
+        logger.debug('Wallet and provider created', {
+          walletAddress: wallet?.address?.toString?.() ?? 'N/A',
+          provider: provider?.connection?.url ?? 'provider',
+        })
 
-program
-  .command('bundle')
-  .description('Run bundler for batch/multicall routes')
-  .option('-c, --config <path>', 'Path to JSON config', 'config.bundle.example.json')
-  .option('--dry-run', 'Simulate without sending transactions', false)
-  .action(async (opts) => {
-    const env = loadEnvironment()
-    const logger = createLogger(env.LOG_LEVEL)
-    const { wallet, provider } = createWalletAndProvider(env)
-    const bundler = new Bundler({ wallet, provider, logger, dryRun: opts.dryRun, env })
-    await  bundler!.run(opts.config)
-  })
+        const moduleInstance = new ModuleClass({
+          wallet,
+          provider,
+          logger,
+          dryRun: Boolean(opts.dryRun),
+          env,
+        })
 
-program
-  .command('volume')
-  .description('Run volume bot (rate-limited buys/sells)')
-  .option('-c, --config <path>', 'Path to JSON config', 'config.volume.example.json')
-  .option('--dry-run', 'Simulate without sending transactions', false)
-  .action(async (opts) => {
-    const env = loadEnvironment()
-    const logger = createLogger(env.LOG_LEVEL)
-    const { wallet, provider } = createWalletAndProvider(env)
-    const vol = new VolumeBot({ wallet, provider, logger, dryRun: opts.dryRun, env })
-    await  vol!.run(opts.config)
-  })
+        if (typeof moduleInstance.run !== 'function') {
+          throw new Error(`Module ${ModuleClass.name} does not implement run(configPath)`)
+        }
 
-await  program!.parseAsync(process.argv)
+        await moduleInstance.run(opts.config)
+        logger.info(`"${name}" completed successfully`)
+      } catch (err) {
+        // Structured logging and graceful exit
+        // eslint-disable-next-line no-console
+        console.error(`Error running "${name}":`, err?.message ?? err)
+        // if you want more details, use logger.error when available
+        process.exitCode = 1
+      }
+    })
+}
 
+// Register commands
+registerCommand(
+  'sniper',
+  'Monitor new launches and attempt purchases according to configured sniper strategy.',
+  Sniper,
+  './config/sniper.json'
+)
 
-//  Trading tool for four.meme fork on BNB Chain
+registerCommand(
+  'copy',
+  'Copy trades from a set of target wallets according to configured rules.',
+  CopyTrader,
+  './config/copy.json'
+)
+
+registerCommand(
+  'bundle',
+  'Batch multiple calls or transactions into a single bundling strategy for testing or efficiency.',
+  Bundler,
+  './config/bundle.json'
+)
+
+registerCommand(
+  'volume',
+  'Run a rate-limited volume bot to simulate or provide liquidity-based trades.',
+  VolumeBot,
+  './config/volume.json'
+)
+
+// parse arguments
+await program.parseAsync(process.argv)

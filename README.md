@@ -1,4 +1,4 @@
-![](assets/fourmeme-bot.png)
+![](assets/fourmeme-bot.jpg)
 
 ## BSC FourMeme Bot
 
@@ -39,11 +39,11 @@ TELEGRAM_CHAT_ID=1002184XXXXXX
 ```
 
 ### Sample configurations
-You can start from the provided examples and tailor them to your needs. If using the sniper feature, replace the “0xTokenAddressHere” placeholder with the target token address. If using the copy transaction feature, replace “0xLeaderWalletAddress” in the config.copy.example.json file with the public wallet address of the trader you deem optimal, such as a KOL. Other data can be adjusted as needed, such as the BNB amount. :
-- `config.copy.example.json`
-- `config.sniper.example.json`
-- `config.bundle.example.json`
-- `config.volume.example.json`
+You can start from the provided examples and tailor them to your needs. If using the sniper feature, replace the “0xTokenAddressHere” placeholder with the target token address. If using the copy transaction feature, replace “0xLeaderWalletAddress” in the copy.json file with the public wallet address of the trader you deem optimal, such as a KOL. Other data can be adjusted as needed, such as the BNB amount. :
+- `copy.json`
+- `sniper.json`
+- `bundle.json`
+- `volume.json`
 
 ## Project Construction
 ```bash
@@ -55,16 +55,16 @@ npm run build
 ## Start using it as needed.
 ```bash
 # Copy-trader
-node dist/index.js copy -c config.copy.example.json
+node dist/index.js copy -c ./config/copy.json
 
 # Sniper (dry-run recommended first)
-node dist/index.js sniper -c config.sniper.example.json --dry-run
+node dist/index.js sniper -c ./config/sniper.json --dry-run
 
 # Bundler
-node dist/index.js bundle -c config.bundle.example.json
+node dist/index.js bundle -c ./config/bundle.json
 
 # Volume bot
-node dist/index.js volume -c config.volume.example.json
+node dist/index.js volume -c ./config/volume.json
 ```
 
 Tip: All commands accept standard Node/CLI flags and module‑specific options (see inline `--help`).
@@ -83,7 +83,7 @@ Tip: All commands accept standard Node/CLI flags and module‑specific options (
 
 
 ## Contact and Donations
-1. Based on the past month's performance, copying profitable KOLs or top traders using the “config.copy.example.json” feature has been the most profitable strategy, though I'm unsure how long this trend will last. Regardless, if this program helps you, donations and stars are what keep me motivated to keep updating it!
+1. Based on the past month's performance, copying profitable KOLs or top traders using the “copy.json” feature has been the most profitable strategy, though I'm unsure how long this trend will last. Regardless, if this program helps you, donations and stars are what keep me motivated to keep updating it!
 
 - `0xde785F1d460435D8a6EDaEc000Abecc1E06F2BFD`
 
