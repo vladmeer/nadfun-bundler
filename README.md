@@ -2,62 +2,42 @@
 
 ## BSC FourMeme Bot
 
-FourMeme(four.meme) BNB Bundler & Volume bot is a modular, CLI-driven trading toolkit tailored for the Four.meme ecosystem on BNB Chain. It includes specialized modules for mirroring wallets, batching routes, and simulating/measuring volume — all powered directly on-chain with no third‑party market data services.
+FourMeme Bot — BNB Bundler & Volume Toolkit
 
+A modular CLI toolkit for development and testing with the Four.meme ecosystem on BNB Chain. Includes bundled modules for route batching, rate‑limited volume simulation, and copy‑trading. Intended for development, testing, and research — use responsibly and never for market manipulation.
 
-## Modules at a glance
-- **Bundler**: Execute predefined swap routes (e.g., `WBNB → TOKEN`) with timing controls; designed to extend toward multicalls.
-- **Volume Bot**: Programmatic buy/sell loops at a set cadence for liquidity/organic activity testing.
-- **Notifications**: Optional Telegram alerts for major lifecycle events.
-- **Risk Controls**: Allow/deny lists, max spend ceilings, and basic MEV‑aware settings.
+Key features
 
-## How it works
+Bundler — execute predefined swap routes (e.g. WBNB → TOKEN), extendable for multicall flows.
 
-### Bundler flow
-- Read a sequence of routes from config → execute each respecting slippage/deadline settings → suitable base for multicall-style extensions.
+Volume Bot — configurable rate‑limited buy/sell loops for liquidity testing.
 
-### Volume Bot flow
-- Loop on an interval → small buys → approve when needed → partial or full sells → repeat with built‑in rate limiting.
+Copy Trader — mirror trades from target wallets (for research/testing).
 
-## Getting started
+Notifications & Controls — optional Telegram alerts, allow/deny lists, spend caps, and basic MEV-aware settings.
 
-### Prerequisites
-- [Node.js 22.15](https://nodejs.org/en/download) or newer
-- A BNB Chain RPC endpoint (The default RPC can be used)
-- A funded wallet private key (BNB)
+Prerequisites
 
-### Install dependencies
-```bash
+Node.js 22+
+
+BNB Chain RPC endpoint
+
+Funded BNB wallet (private key, keep it secret)
+
+Install
+git clone <repo>
+cd <repo>
 npm install
-```
+cp .env.example .env      # populate values
 
-### Environment setup
-Copy `.env.example` to `.env` and populate the required values. RPC/PancakeV2/WBNB mainnet defaults are provided. To enable Telegram notifications (optional), add:
-```
-TELEGRAM_BOT_TOKEN=794431:AAH72RqUaevy_nk7BttAGVEqAXXXXXXX
-TELEGRAM_CHAT_ID=1002184XXXXXX
-```
-
-### Sample configurations
-You can start from the provided examples and tailor them to your needs. If using the sniper feature, replace the “0xTokenAddressHere” placeholder with the target token address. If using the copy transaction feature, replace “0xLeaderWalletAddress” in the copy.json file with the public wallet address of the trader you deem optimal, such as a KOL. Other data can be adjusted as needed, such as the BNB amount. :
-- `copy.json`
-- `sniper.json`
-- `bundle.json`
-- `volume.json`
-
-## Project Construction
-```bash
+Build
 npm run build
 
-```
-
-
-## Start using it as needed.
-```bash
+Usage
 # Copy-trader
 node dist/index.js copy -c ./config/copy.json
 
-# Sniper (dry-run recommended first)
+# Sniper (use --dry-run for simulation)
 node dist/index.js sniper -c ./config/sniper.json --dry-run
 
 # Bundler
@@ -65,28 +45,38 @@ node dist/index.js bundle -c ./config/bundle.json
 
 # Volume bot
 node dist/index.js volume -c ./config/volume.json
-```
-
-Tip: All commands accept standard Node/CLI flags and module‑specific options (see inline `--help`).
-
-## Configuration and safety tips
-- Start in dry‑run mode; scale notional size gradually.
-- Maintain deny lists and confirm token/router addresses before enabling live trades.
-- For fast markets, sniper slippage of 3–8% (300–800 bips) is common; test first.
-- For copy‑trading, set both per‑trade caps and a daily max exposure.
-
-## Security best practices
-- Never commit secrets or private keys.
-- Use a dedicated hot wallet for experimentation.
-- Double‑check token and router contract addresses.
-- Prefer dry‑run first, then small sizes in production.
 
 
-## Contact and Donations
-1. Based on the past month's performance, copying profitable KOLs or top traders using the “copy.json” feature has been the most profitable strategy, though I'm unsure how long this trend will last. Regardless, if this program helps you, donations and stars are what keep me motivated to keep updating it!
+Use --help on any command for options.
 
-- `0xde785F1d460435D8a6EDaEc000Abecc1E06F2BFD`
+Configuration
 
-2. If you have any suggestions, they would be extremely helpful for my next update! The best way to contact me is to send an email to:
+Edit JSON files in ./config (examples included):
+sniper.json, copy.json, bundle.json, volume.json — set routes, slippage, amounts, limits and intervals.
 
-- `jasonreed2001@gmail.com`
+For Telegram alerts (optional) set in .env:
+
+TELEGRAM_BOT_TOKEN=...
+TELEGRAM_CHAT_ID=...
+
+Safety & Best Practices
+
+Always start in --dry-run/simulation mode.
+
+Use a dedicated, minimal‑fund hot wallet for experiments.
+
+Never commit private keys or secrets.
+
+Validate token/router addresses and caps before enabling live runs.
+
+Do not use this toolkit to manipulate markets or perform harmful activity.
+
+License & Contact
+
+Use at your own risk. Audit and test thoroughly before any live use.
+
+Donations (optional): 0xde785F1d460435D8a6EDaEc000Abecc1E06F2BFD
+
+Contact: vladmeer.dev@gmail.com
+
+Concise, professional, and safe — tell me if you want this converted to a full README.md with badges, example configs, or a quick start script.
