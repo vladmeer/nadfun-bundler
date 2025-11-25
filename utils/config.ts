@@ -1,9 +1,8 @@
-// File: utils/config.js
+// File: utils/config.ts
 
-const ADDR = {
+export const ADDR = {
     CORE: "0x822EB1ADD41cf87C3F178100596cf24c9a6442f6",
     UNISWAP_V2_ROUTER: "0x619d07287e87C9c643C60882cA80d23C8ed44652",
     WRAPPED_MON: "0x3bb9AFB94c82752E47706A10779EA525Cf95dc27",
-};
+} as const;
 
-module.exports = { ADDR };

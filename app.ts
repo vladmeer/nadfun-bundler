@@ -1,11 +1,13 @@
-require('dotenv').config();
-const { runStrategy } = require('./index.js');
-const { generateWallets } = require('./lib/walletManager.js');
-const { loadAbi } = require('./lib/trader.js');
-const prompt = require('prompt-sync')({ sigint: true });
-const fs = require('fs');
+import 'dotenv/config';
+import { runStrategy, Config } from './index';
+import { generateWallets } from './lib/walletManager';
+import { loadAbi } from './lib/trader';
+import promptSync from 'prompt-sync';
+import fs from 'fs';
 
-const config = {
+const prompt = promptSync({ sigint: true });
+
+const config: Config = {
     rpcUrls: process.env.RPC_URLS,
     chainId: process.env.CHAIN_ID,
     privateKeys: process.env.PRIVATE_KEYS,
@@ -14,7 +16,7 @@ const config = {
     sellPercent: process.env.SELL_PERCENT,
 };
 
-function printHeader() {
+function printHeader(): void {
     console.clear();
     console.log("=================================================");
     console.log("          NAD.FUN TRADING BOT V2                 ");
@@ -22,7 +24,7 @@ function printHeader() {
     console.log("");
 }
 
-async function handleBundlerMode() {
+async function handleBundlerMode(): Promise<void> {
     while (true) {
         console.log("\n--- Bundler Mode ---");
         console.log("1. Generate Wallets");
@@ -102,7 +104,7 @@ async function handleBundlerMode() {
     }
 }
 
-async function main() {
+async function main(): Promise<void> {
     await loadAbi();
     while (true) {
         printHeader();
@@ -172,7 +174,7 @@ async function main() {
                     console.log("\n❌ Invalid choice. Please try again.");
             }
         } catch (error) {
-            console.error("\n❌ Error occurred:", error.message);
+            console.error("\n❌ Error occurred:", (error as Error).message);
         }
 
         if (choice !== '6' && choice !== '5') {
@@ -183,3 +185,4 @@ async function main() {
 }
 
 main();
+
