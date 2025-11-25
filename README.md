@@ -1,71 +1,139 @@
-![fourmeme-bot](https://github.com/user-attachments/assets/ea07080a-db33-4a2d-ba93-5c8739959682)
+<div align="center">
 
-## FourMeme Bot — BNB Bundler & Volume Toolkit
+# 🚀 NAD.FUN Trading Bot
 
-A modular CLI toolkit for development and testing with the Four.meme ecosystem on BNB Chain. Includes bundled modules for route batching, rate‑limited volume simulation, and copy‑trading. Intended for development, testing, and research — use responsibly and never for market manipulation.
+### Sniper • Bundler • Volume Bot for Monad
 
-### Key features
+[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+[![Node.js](https://img.shields.io/badge/Node.js-v16+-green.svg)](https://nodejs.org/)
+[![Ethers.js](https://img.shields.io/badge/Ethers.js-v6-purple.svg)](https://docs.ethers.org/)
+[![Telegram](https://img.shields.io/badge/Telegram-@vladmeer67-blue?logo=telegram)](https://t.me/vladmeer67)
 
-Bundler — execute predefined swap routes (e.g. WBNB → TOKEN), extendable for multicall flows.
-Volume Bot — configurable rate‑limited buy/sell loops for liquidity testing.
-Copy Trader — mirror trades from target wallets (for research/testing).
-Notifications & Controls — optional Telegram alerts, allow/deny lists, spend caps, and basic MEV-aware settings.
+<img src="assets/banner.png" alt="NAD.FUN Bot" width="600"/>
+
+**High-performance trading toolkit for the Nad.fun ecosystem on Monad**
+
+[Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [Configuration](#%EF%B8%8F-configuration) • [Contact](#-contact)
+
+</div>
+
+---
+
+## ✨ Features
+
+| Feature | Description |
+|---------|-------------|
+| 🎯 **Sniper Bot** | Auto-detect and buy new tokens instantly at launch |
+| 💼 **Bundler** | Multi-wallet management with batch buy/sell operations |
+| 📊 **Volume Bot** | Configurable buy/sell loops for liquidity simulation |
+| 🛠️ **Manual Trading** | Precision trades with custom amounts and slippage |
+| 🔔 **Notifications** | Optional Telegram alerts for trade updates |
+
+---
+
+## 📦 Installation
 
 ### Prerequisites
+- Node.js v16+
+- npm or yarn
+- Monad RPC endpoint
+- Funded wallet (keep your private key secure!)
 
-Node.js 22+
-BNB Chain RPC endpoint
-Funded BNB wallet (private key, keep it secret)
+### Quick Start
 
-### Install
-``git clone <repo>
-cd <repo>
+```bash
+# Clone the repository
+git clone https://github.com/vladmeer/nadfun-bundler.git
+cd nadfun-bundler
+
+# Install dependencies
 npm install
-cp .env.example .env      # populate values``
 
-### Build
-``npm run build``
+# Configure environment
+cp example.env .env
+# Edit .env with your settings
 
-### Usage
-```
-# Copy-trader
-node dist/index.js copy -c ./config/copy.json
-
-# Sniper (use --dry-run for simulation)
-node dist/index.js sniper -c ./config/sniper.json --dry-run
-
-# Bundler
-node dist/index.js bundle -c ./config/bundle.json
-
-# Volume bot
-node dist/index.js volume -c ./config/volume.json
+# Start the bot
+npm start
 ```
 
-Use --help on any command for options.
+---
 
-### Configuration
+## 🎮 Usage
 
-Edit JSON files in ./config (examples included):
-sniper.json, copy.json, bundle.json, volume.json — set routes, slippage, amounts, limits and intervals.
-
-For Telegram alerts (optional) set in .env:
+Launch the bot and select from the interactive menu:
 
 ```
-TELEGRAM_BOT_TOKEN=...
-TELEGRAM_CHAT_ID=...
+╔═══════════════════════════════════════════════╗
+║          NAD.FUN TRADING BOT                  ║
+╠═══════════════════════════════════════════════╣
+║  1. Manual Buy                                ║
+║  2. Manual Sell                               ║
+║  3. Sell All (API)                            ║
+║  4. Auto Buy New Tokens (Sniper)              ║
+║  5. Bundler Mode (Interactive)                ║
+║  6. Exit                                      ║
+╚═══════════════════════════════════════════════╝
 ```
 
-### Safety & Best Practices
+### 🎯 Sniper Mode
+Monitor the chain and auto-buy new tokens the moment they launch. Be first in line!
 
-- Always start in --dry-run/simulation mode.
-- Use a dedicated, minimal‑fund hot wallet for experiments.
-- Never commit private keys or secrets.
-- Validate token/router addresses and caps before enabling live runs.
-- Do not use this toolkit to manipulate markets or perform harmful activity.
+### 💼 Bundler Mode
+- **Generate Wallets** — Create multiple wallets for bundling
+- **Batch Buy/Sell** — Execute trades across all wallets simultaneously
+- **Export Wallets** — Save wallet data to `generated_wallets.txt`
 
-### 👤 Author
-#### Telegram: [Vladmeer](https://t.me/vladmeer67)   
-https://t.me/vladmeer67
+### 🛠️ Manual Trading
+Execute precise buy/sell orders with custom token addresses, amounts, and slippage.
 
-#### Twitter: [Vladmeer](https://x.com/vladmeer67)   
-https://x.com/vladmeer67
+---
+
+## ⚙️ Configuration
+
+Edit your `.env` file with the following settings:
+
+```env
+# Required
+PRIVATE_KEY=your_private_key_here
+RPC_URL=your_monad_rpc_url
+
+# Trading Settings
+BUY_AMOUNT=0.1
+SLIPPAGE=10
+
+# Optional: Telegram Notifications
+TELEGRAM_BOT_TOKEN=your_bot_token
+TELEGRAM_CHAT_ID=your_chat_id
+```
+
+---
+
+## ⚠️ Disclaimer
+
+> **USE AT YOUR OWN RISK**
+
+Trading cryptocurrencies involves significant risk. This software is provided "as is" without warranty. The authors are not responsible for any financial losses.
+
+- ✅ Always test with small amounts first
+- ✅ Keep your private keys secure
+- ✅ Never share your `.env` file
+- ❌ Do not use for market manipulation
+
+---
+
+## 👤 Contact
+
+<div align="center">
+
+**Vladmeer** — Developer & Maintainer
+
+[![Telegram](https://img.shields.io/badge/Telegram-@vladmeer67-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/vladmeer67)
+[![Twitter](https://img.shields.io/badge/Twitter-@vladmeer67-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://x.com/vladmeer67)
+[![GitHub](https://img.shields.io/badge/GitHub-vladmeer-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/vladmeer)
+
+---
+
+⭐ **Star this repo if you find it useful!** ⭐
+
+</div>

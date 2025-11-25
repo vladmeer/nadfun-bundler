@@ -1,7 +1,0 @@
-{
-  "token": "0xTokenAddressHere",
-  "amountBnb": "0.01",
-  "slippageBips": 800,
-  "intervalMs": 15000
-}
-

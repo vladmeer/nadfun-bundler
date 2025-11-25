@@ -1,9 +1,0 @@
-{
-  "targets": [
-    "0xLeaderWalletAddress"
-  ],
-  "defaultToken": "0xTokenToMirror",
-  "positionPercent": 10,
-  "maxBnbPerTrade": "0.05"
-}
-
