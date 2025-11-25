@@ -9,7 +9,7 @@
 [![Ethers.js](https://img.shields.io/badge/Ethers.js-v6-purple.svg)](https://docs.ethers.org/)
 [![Telegram](https://img.shields.io/badge/Telegram-@vladmeer67-blue?logo=telegram)](https://t.me/vladmeer67)
 
-<img src="assets/banner.png" alt="NAD.FUN Bot" width="600"/>
+![Nad.fun](https://github.com/user-attachments/assets/9ad524dc-fc06-4382-8105-994c5f85c81b)
 
 **High-performance trading toolkit for the Nad.fun ecosystem on Monad**
 
