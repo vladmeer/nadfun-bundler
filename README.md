@@ -122,6 +122,13 @@ Trading cryptocurrencies involves significant risk. This software is provided "a
 
 ---
 
+## Demo
+Bundler: <br />
+https://github.com/user-attachments/assets/fd4923c4-c9da-471a-9efb-a86247f521e6
+
+Volume bot: <br />
+https://www.youtube.com/watch?v=i6n5mnxjb4o
+
 ## 👤 Contact
 
 <div align="center">
